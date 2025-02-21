@@ -22,7 +22,7 @@ const Header = () => {
             </div>
           </Link>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 ">
             <span className="hidden md:block text-base font-bold">
               მერაბი სამხარაძე
             </span>
@@ -32,14 +32,14 @@ const Header = () => {
               alt="User Avatar"
               width={40}
               height={40}
-              className="rounded-full border border-white hover:scale-125 ease-in-out duration-500 cursor-pointer"
+              className="rounded-full border border-white hover:scale-125 ease-in-out duration-500 cursor-pointer "
             />
 
-            <button className="relative group text-sm px-3 py-1 rounded-md hover:scale-125 transition-transform duration-700">
-              <LogOut />
-              <span className="absolute bottom-[-30px] left-1/2 -translate-x-1/2 scale-0 group-hover:scale-100 transition-transform duration-300 bg-white text-black border text-xs px-2 py-1 rounded-md">
+            <button className="relative  group text-sm px-3 py-1 rounded-md hover:scale-125 transition-transform duration-700 z-50">
+              <span className="absolute bottom-[-30px] left-1/2 -translate-x-1/2 scale-0 group-hover:scale-100 transition-transform duration-300 bg-white text-black border text-xs px-2 py-1 rounded-md ">
                 გამოსვლა
               </span>
+              <LogOut />
             </button>
           </div>
         </div>

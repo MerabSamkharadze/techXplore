@@ -1,27 +1,65 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Copy, X } from "lucide-react";
 import Share from "../../public/svg/Share";
 
 export default function PopupComponent() {
   const [showPopup, setShowPopup] = useState(false);
   const [copied, setCopied] = useState(false);
-  const link =
-    "https://example.com/serghsfdgsrfgsfs/sfs/fdbsfg/bsfgn/bdsfgns/fdgbdfgnS?fgnbdfgbd";
+  const [link, setLink] = useState<string>("");
+  const [shortUrl, setShortUrl] = useState("");
+
+  useEffect(() => {
+    setLink(window.location.href);
+  }, []);
+  const handleSubmit = async () => {
+    const response = await fetch(
+      `https://tinyurl.com/api-create.php?url=${encodeURIComponent(link)}`
+    );
+
+    if (response.ok) {
+      const shortUrl = await response.text();
+      setShortUrl(`${shortUrl}/payments`);
+    } else {
+      alert("Error creating short URL");
+    }
+    setShowPopup(true);
+  };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(link);
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 2000);
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard
+        .writeText(shortUrl)
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        })
+        .catch(() => fallbackCopyToClipboard(shortUrl));
+    } else {
+      fallbackCopyToClipboard(shortUrl);
+    }
+  };
+
+  const fallbackCopyToClipboard = (text: string) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Fallback: Copying text failed", err);
+    }
+    document.body.removeChild(textArea);
   };
 
   return (
-    <div className="p-2 rounded-lg hover:bg-gray-200 z-50">
+    <div className="p-2 cursor-pointer rounded-lg hover:bg-gray-200 z-40">
       <div className="relative group">
-        <button onClick={() => setShowPopup(true)}>
+        <button onClick={handleSubmit}>
           <Share />
         </button>
         <span className="absolute -top-8 left-1/2 -translate-x-1/2 scale-0 transition-all rounded bg-gray-800 text-white text-xs px-2 py-1 group-hover:scale-100">
@@ -54,7 +92,7 @@ export default function PopupComponent() {
                     copied && "text-green-600"
                   }`}
                 >
-                  {link}
+                  {shortUrl}
                 </span>
                 <button onClick={copyToClipboard}>
                   <Copy
