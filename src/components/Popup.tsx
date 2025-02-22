@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Copy, X } from "lucide-react";
 import Share from "../../public/svg/Share";
+import Done from "../../public/svg/Done";
 
 export default function PopupComponent() {
   const [showPopup, setShowPopup] = useState(false);
@@ -74,7 +75,11 @@ export default function PopupComponent() {
 
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50">
-          <div className="p-[2px] rounded-2xl bg-gradient-to-r from-[#00adee] to-[#0077b6]">
+          <div
+            className={`p-[2px] rounded-2xl bg-gradient-to-r from-[#00adee] to-[#0077b6] ${
+              copied && "from-green-600 to-[#00FF00]"
+            } `}
+          >
             <div className="bg-white p-6 rounded-2xl shadow-lg w-80 text-center relative">
               <button
                 className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
@@ -88,7 +93,13 @@ export default function PopupComponent() {
                   copied && "bg-green-600"
                 }`}
               >
-                {copied ? "Copied!" : "Copy Link"}
+                {copied ? (
+                  <div className="flex gap-2 text-center items-center justify-center">
+                    <Done /> Copied!
+                  </div>
+                ) : (
+                  "Copy Link"
+                )}
               </h2>
 
               <div className="relative flex items-center justify-between bg-gray-100 px-3 py-2 rounded-md">
