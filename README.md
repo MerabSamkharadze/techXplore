@@ -1,37 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+TBC Banking Test Project
+This project is a demo application built for TBC Banking’s test. It simulates key functionalities including money transfers and popup notifications, all implemented using modern web development tools.
 
-## Getting Started
+Overview
+Purpose: Demonstrate a small but functional prototype for TBC Banking with features such as money transfers and popup notifications.
+Tech Stack:
+Next.js (App Router) for server-side rendering and routing
+Tailwind CSS for styling and responsive design
+TypeScript for type safety and maintainability
+Deployment: Hosted on Vercel
+Features
+Money Transfer:
+A simulated interface to initiate and validate money transfers.
+Popup Notifications:
+Real-time notifications for transaction status and alerts.
+Responsive UI:
+Optimized for all devices with Tailwind CSS.
+Modern Routing:
+Leveraging Next.js App Router for dynamic page loading and better user experience.
+Getting Started
+Prerequisites
+Ensure you have the following installed on your machine:
 
-First, run the development server:
+Node.js (v14 or higher)
+Package Manager: npm, yarn, or pnpm
+Installation
+Clone the repository and install the dependencies:
 
-```bash
+bash
+Copy
+Edit
+git clone <repository_url>
+cd <repository_folder>
+npm install
+# or
+yarn install
+# or
+pnpm install
+Running the Development Server
+Start the development server with one of the following commands:
+
+bash
+Copy
+Edit
 npm run dev
 # or
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
-```
+Open http://localhost:3000 in your browser to see the application in action.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Project Structure
+app/
+Contains pages and components that leverage the Next.js App Router.
+components/
+Reusable UI components such as the money transfer form and popup notification module.
+styles/
+Tailwind CSS configuration and custom styles.
+tsconfig.json
+TypeScript configuration for type safety.
+Deployment
+This project is deployed on Vercel. To deploy your changes:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Push your code to your Git repository.
+Connect your repository to Vercel.
+Follow the deployment instructions on the Vercel documentation.
+Contributing
+Contributions are welcome! If you’d like to improve the project or add features, please open an issue or submit a pull request.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# techXplore
+License
+This project is open source and available under the MIT License.
