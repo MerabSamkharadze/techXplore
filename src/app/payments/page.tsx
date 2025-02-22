@@ -5,10 +5,20 @@ import PopupComponent from "@/components/Popup";
 
 export default function Dashboard() {
   const [selectedDebts, setSelectedDebts] = useState<string[]>([]);
+  const [paidDebts, setPaidDebts] = useState<string[]>([]);
+  const [ecoMessage, setEcoMessage] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [menuOpen, setMenuOpen] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState("კომუნალური გადახდა");
-
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const paymentTimeoutRef = useRef<number | null>(null);
+
+  const ecoMessages = [
+    "დაიცავით ბუნება – მცირე ქმედებაც ქმნის დიდ ცვლილებებს.",
+    "დაზოგეთ ენერგია და შემცირეთ დაბინძურება, მოიყვანეთ ეკო გადაწყვეტილებები.",
+    "მცირე ნაბიჯები, როგორიცაა LED განათების გამოყენება, მნიშვნელოვან გავლენას ახდენს.",
+    "გახდით ეკო მეგობრული: გამოიყენეთ სუფთა და განახლებადი ენერგია.",
+    "გახსენით, რომ ბუნების დაცვა ჩვენი ყველას მოვალეობაა.",
+  ];
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -17,15 +27,27 @@ export default function Dashboard() {
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const toggleDebtSelection = (id: string) => {
     setSelectedDebts((prev) =>
       prev.includes(id) ? prev.filter((debtId) => debtId !== id) : [...prev, id]
     );
+  };
+
+  const handlePaymentClick = () => {
+    if (isProcessing) return;
+    setIsProcessing(true);
+    paymentTimeoutRef.current = window.setTimeout(() => {
+      setPaidDebts((prev) => [...prev, ...selectedDebts]);
+      setSelectedDebts([]);
+
+      const randomMessage =
+        ecoMessages[Math.floor(Math.random() * ecoMessages.length)];
+      setEcoMessage(randomMessage);
+      setIsProcessing(false);
+    }, 2000);
   };
 
   const debts = [
@@ -59,12 +81,21 @@ export default function Dashboard() {
     },
   ];
 
+  // გამოთვლისას გადახდილი გადასახადების გათვალისწინება
   const totalMyDebt = debts
-    .filter((debt) => debt.mine && parseFloat(debt.amount) < 0)
+    .filter(
+      (debt) =>
+        debt.mine && parseFloat(debt.amount) < 0 && !paidDebts.includes(debt.id)
+    )
     .reduce((acc, debt) => acc + parseFloat(debt.amount), 0);
 
   const totalSharedDebt = debts
-    .filter((debt) => !debt.mine && parseFloat(debt.amount) < 0)
+    .filter(
+      (debt) =>
+        !debt.mine &&
+        parseFloat(debt.amount) < 0 &&
+        !paidDebts.includes(debt.id)
+    )
     .reduce((acc, debt) => acc + parseFloat(debt.amount), 0);
 
   const totalSelectedDebt = selectedDebts.reduce((acc, debtId) => {
@@ -84,17 +115,10 @@ export default function Dashboard() {
         ].map((tab) => (
           <button
             key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-6 py-3 text-base font-normal relative ${
-              activeTab === tab
-                ? "text-[#00a3e0]"
-                : "text-gray-700 hover:text-[#00a4e0e9]"
-            }`}
+            onClick={() => {}}
+            className="px-6 py-3 text-base font-normal relative text-gray-700 hover:text-[#00a4e0e9]"
           >
             {tab}
-            {activeTab === tab && (
-              <span className="absolute left-0 bottom-0 w-full h-1 bg-[#00a3e0]" />
-            )}
           </button>
         ))}
       </div>
@@ -143,11 +167,11 @@ export default function Dashboard() {
                 {totalMyDebt.toFixed(2)} GEL
               </span>
             </button>
-            <div className="btn-pay-all flex items-center justify-center p-4 transition" />
           </div>
+
           <div className="space-y-2">
             {debts
-              .filter((debt) => debt.mine)
+              .filter((debt) => debt.mine && !paidDebts.includes(debt.id))
               .map((debt) => {
                 const numericValue = parseFloat(debt.amount);
                 return (
@@ -173,10 +197,6 @@ export default function Dashboard() {
 
                     <span>{debt.name}</span>
 
-                    <div className="btn-pay-all flex items-center justify-center p-4 transition" />
-                    <div className="btn-pay-all flex items-center justify-center p-4 transition" />
-                    <div className="btn-pay-all flex items-center justify-center p-4 transition" />
-
                     {numericValue < 0 ? (
                       <span className="font-semibold text-[#b12f26]">
                         {debt.amount} GEL
@@ -189,7 +209,7 @@ export default function Dashboard() {
 
                     <div className="flex items-center gap-3 space-x-2">
                       <button
-                        className={`px-6 py-2 rounded border !cursor-pointer ${
+                        className={`px-6 py-2 rounded border cursor-pointer ${
                           selectedDebts.includes(debt.id)
                             ? "bg-purple-700 text-white"
                             : "bg-white text-purple-700 border-fuchsia-700"
@@ -199,7 +219,6 @@ export default function Dashboard() {
                         {selectedDebts.includes(debt.id) ? "მოხსნა" : "არჩევა"}
                       </button>
                       <PopupComponent />
-
                       <button
                         className="text-gray-500 font-bold text-2xl"
                         onClick={() =>
@@ -208,7 +227,6 @@ export default function Dashboard() {
                       >
                         ⋮
                       </button>
-
                       {menuOpen === debt.id && (
                         <div
                           ref={menuRef}
@@ -250,11 +268,10 @@ export default function Dashboard() {
                 {totalSharedDebt.toFixed(2)} GEL
               </span>
             </button>
-            <div className="btn-pay-all flex items-center justify-center p-4 transition" />
           </div>
           <div className="space-y-2">
             {debts
-              .filter((debt) => !debt.mine)
+              .filter((debt) => !debt.mine && !paidDebts.includes(debt.id))
               .map((debt) => {
                 const numericValue = parseFloat(debt.amount);
                 return (
@@ -280,10 +297,6 @@ export default function Dashboard() {
 
                     <span>{debt.name}</span>
 
-                    <div className="btn-pay-all flex items-center justify-center p-4 transition" />
-                    <div className="btn-pay-all flex items-center justify-center p-4 transition" />
-                    <div className="btn-pay-all flex items-center justify-center p-4 transition" />
-
                     {numericValue < 0 ? (
                       <span className="font-semibold text-[#b12f26]">
                         {debt.amount} GEL
@@ -296,7 +309,7 @@ export default function Dashboard() {
 
                     <div className="flex items-center gap-3 space-x-2">
                       <button
-                        className={`px-6 py-2 rounded border !cursor-pointer ${
+                        className={`px-6 py-2 rounded border cursor-pointer ${
                           selectedDebts.includes(debt.id)
                             ? "bg-purple-700 text-white"
                             : "bg-white text-purple-700 border-fuchsia-700"
@@ -305,7 +318,6 @@ export default function Dashboard() {
                       >
                         {selectedDebts.includes(debt.id) ? "მოხსნა" : "არჩევა"}
                       </button>
-
                       <button
                         className="text-gray-500 font-bold text-2xl"
                         onClick={() =>
@@ -314,7 +326,6 @@ export default function Dashboard() {
                       >
                         ⋮
                       </button>
-
                       {menuOpen === debt.id && (
                         <div
                           ref={menuRef}
@@ -345,11 +356,11 @@ export default function Dashboard() {
 
         <aside className="w-1/3 bg-white border border-gray-200 rounded-xl shadow-md">
           <h2
-            className={`${
+            className={`w-full py-4 px-6 rounded-tr-xl text-lg font-semibold ${
               selectedDebts.length > 0
                 ? "bg-[#19569b] text-white"
                 : "bg-[#f7f8f9] text-black"
-            } w-full py-4 px-6 rounded-tr-xl text-lg font-semibold`}
+            }`}
           >
             2. გადახდის კალათა
           </h2>
@@ -365,6 +376,15 @@ export default function Dashboard() {
                 >
                   {totalSelectedDebt.toFixed(2)} GEL
                 </span>
+              </div>
+              <div className="max-w-md mx-auto bg-red-50 p-6 rounded-lg shadow-md">
+                <p className="text-xl font-bold text-red-900 mb-4">
+                  ამ თვეში თქვენი კომუნარული გადასახადი 23%-ით გაიზარდა
+                  საშუალოსთან შედარებით
+                </p>
+                <p className="text-lg text-green-800">
+                  ერთად ვიზრუნოთ ბუნებაზე 🌱
+                </p>
               </div>
 
               <div className="mt-4 bg-[#f7f8f9] border border-gray-300 rounded-lg p-4 flex items-center space-x-2">
@@ -395,19 +415,22 @@ export default function Dashboard() {
                   );
                 })}
               </ul>
-              <div className="max-w-md mx-auto bg-red-50 p-6 rounded-lg shadow-md">
-                <p className="text-xl font-bold text-red-900 mb-4">
-                  ამ თვეში თქვენი კომუნარული გადასახადი 23%-ით გაიზარდა
-                  საშუალოსთან შედარებით
-                </p>
-                <p className="text-lg text-green-800">
-                  ერთად ვიზრუნოთ ბუნებაზე 🌱
-                </p>
-              </div>
 
-              <button className="mt-6 w-full bg-[#8e1ca5] text-white py-4 rounded-lg text-lg font-medium">
-                გადახდა
-              </button>
+              {isProcessing ? (
+                <button
+                  className="mt-6 w-full bg-gray-500 text-white py-4 rounded-lg text-lg font-medium"
+                  disabled
+                >
+                  მიმდინარე გადახდა
+                </button>
+              ) : (
+                <button
+                  onClick={handlePaymentClick}
+                  className="mt-6 w-full bg-[#8e1ca5] text-white py-4 rounded-lg text-lg font-medium"
+                >
+                  გადახდა
+                </button>
+              )}
             </div>
           ) : (
             <div className="p-6 flex flex-col items-center text-center text-gray-600 text-sm">
@@ -416,6 +439,40 @@ export default function Dashboard() {
                 დააჭირე ღილაკს “არჩევა” და გადაიხადე ერთი ან რამდენიმე
                 გადასახადი
               </p>
+            </div>
+          )}
+
+          {paidDebts.length > 0 && (
+            <div className="mt-4 p-4 border-t">
+              <h3 className="text-lg font-semibold">გადახდილი გადასახადები</h3>
+              <ul className="mt-2">
+                {paidDebts.map((id) => {
+                  const debt = debts.find((d) => d.id === id);
+                  if (!debt) return null;
+                  return (
+                    <li
+                      key={id}
+                      className="flex justify-between items-center border-b py-2"
+                    >
+                      <span className="text-gray-800">{debt.name}</span>
+                      <span className="text-green-700 font-bold">
+                        გადახდილი
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+              {ecoMessage && (
+                <div className="relative mt-4 p-4 bg-green-100 border border-green-300 rounded-lg text-green-800 text-lg font-medium">
+                  <span>{ecoMessage}</span>
+                  <button
+                    onClick={() => setEcoMessage(null)}
+                    className="absolute top-1 right-1 text-green-800 font-bold"
+                  >
+                    ×
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </aside>
