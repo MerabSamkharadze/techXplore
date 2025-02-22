@@ -1,8 +1,14 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import LogOut from "../../public/svg/logout";
 import Navbar from "./Nav";
+import { useEffect, useState } from "react";
 const Header = () => {
+  const [link, setLink] = useState<string>("");
+  useEffect(() => {
+    setLink(window.location.href);
+  }, []);
   return (
     <>
       <header className="bg-[#00adee] text-white font-bold  shadow-md fixed top-0 left-0 right-0 z-50">
@@ -24,11 +30,17 @@ const Header = () => {
 
           <div className="flex items-center space-x-4 ">
             <span className="hidden md:block text-base font-bold">
-              მერაბი სამხარაძე
+              {link.includes("payments")
+                ? "დავით დავიტაშვილი"
+                : "გიორგი გიორგაძე"}
             </span>
 
             <Image
-              src="https://static.tbconline.ge/rdbscustomers/d7cd88231707282447dc7ff10dc8fa8badbc95a959bfc01264c4036a11b17490/8b73602e09ea4de39798d52dc61b7145.png"
+              src={
+                link.includes("payments")
+                  ? "https://cdn-icons-png.flaticon.com/512/219/219986.png"
+                  : `https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png`
+              }
               alt="User Avatar"
               width={40}
               height={40}

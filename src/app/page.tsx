@@ -30,6 +30,7 @@ export default function Dashboard() {
 
   const debts = [
     {
+      mine: true,
       id: "4910520840",
       name: "ეპ ჯორჯია მიწოდება",
       amount: "12.00",
@@ -37,12 +38,14 @@ export default function Dashboard() {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvde9ploF_S2OOGQZN6NL5C7X7Tz0HinzgZA&s",
     },
     {
+      mine: true,
       id: "003102991-838",
       name: "სოკარის ბუნებრივი აირი",
       amount: "-167.00",
       image: "https://formulanews.ge/uploads_script3/news/pow2gmfal8dj1yv.jpg",
     },
     {
+      mine: true,
       id: "341821936",
       name: "მაგთის ოპტიკური ინტერნეტი",
       amount: "-26.18",
