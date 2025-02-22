@@ -5,6 +5,22 @@ import LogOut from "../../public/svg/logout";
 import Navbar from "./Nav";
 import { useEffect, useState } from "react";
 const Header = () => {
+  // async function getCustomer() {
+  //   try {
+  //     const response = await fetch("http://3.66.130.175:8080/api/customers/");
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP Error: ${response.status}`);
+  //     }
+  //     const customer = await response.json();
+  //     console.log(customer);
+  //     return customer;
+  //   } catch (error) {
+  //     console.error("Error fetching customers:", error);
+  //   }
+  // }
+
+  // getCustomer();
+
   const [link, setLink] = useState<string>("");
   useEffect(() => {
     setLink(window.location.href);
@@ -31,7 +47,7 @@ const Header = () => {
           <div className="flex items-center space-x-4 ">
             <span className="hidden md:block text-base font-bold">
               {link.includes("payments")
-                ? "დავით დავიტაშვილი"
+                ? "დავით დავითაშვილი"
                 : "გიორგი გიორგაძე"}
             </span>
 

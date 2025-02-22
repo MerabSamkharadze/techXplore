@@ -255,7 +255,6 @@ export default function Dashboard() {
                 </span>
               </div>
 
-              {/* Account Info */}
               <div className="mt-4 bg-[#f7f8f9] border border-gray-300 rounded-lg p-4 flex items-center space-x-2">
                 <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full">
                   💳
@@ -269,7 +268,6 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {/* Selected Debts */}
               <ul className="mt-4">
                 {selectedDebts.map((id) => {
                   const debt = debts.find((d) => d.id === id);
@@ -285,7 +283,16 @@ export default function Dashboard() {
                   );
                 })}
               </ul>
-
+              <div className="max-w-md mx-auto bg-green-50 p-6 rounded-lg shadow-md">
+                <p className="text-xl font-bold text-green-900 mb-4">
+                  ყოჩაღ! ამ თვეში თქვენი კომუნარული გადასახადი 10%-ით შემცირდა
+                  საშუალოსთან შედარებით 👏
+                </p>
+                <p className="text-lg text-green-800">
+                  ბუნებრივი რესურსების გონივრული ხარჯვით, ერთად ვიზრუნოთ
+                  ბუნებაზე 🌱
+                </p>
+              </div>
               <button className="mt-6 w-full bg-[#8e1ca5] text-white py-4 rounded-lg text-lg font-medium">
                 გადახდა
               </button>

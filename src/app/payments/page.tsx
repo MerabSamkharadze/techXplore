@@ -374,9 +374,9 @@ export default function Dashboard() {
                 <div className="flex-1">
                   <p className="text-sm text-gray-700">თქვენი ანგარიში</p>
                   <p className="text-gray-900 font-medium text-base">
-                    GE86T.....9
+                    GE45T.....3
                   </p>
-                  <p className="text-gray-500 text-sm">1500.78 GEL</p>
+                  <p className="text-gray-500 text-sm">7500.22 GEL</p>
                 </div>
               </div>
 
@@ -395,6 +395,15 @@ export default function Dashboard() {
                   );
                 })}
               </ul>
+              <div className="max-w-md mx-auto bg-red-50 p-6 rounded-lg shadow-md">
+                <p className="text-xl font-bold text-red-900 mb-4">
+                  ამ თვეში თქვენი კომუნარული გადასახადი 23%-ით გაიზარდა
+                  საშუალოსთან შედარებით
+                </p>
+                <p className="text-lg text-green-800">
+                  ერთად ვიზრუნოთ ბუნებაზე 🌱
+                </p>
+              </div>
 
               <button className="mt-6 w-full bg-[#8e1ca5] text-white py-4 rounded-lg text-lg font-medium">
                 გადახდა
