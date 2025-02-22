@@ -11,7 +11,11 @@ export default function PopupComponent() {
   const [shortUrl, setShortUrl] = useState("");
 
   useEffect(() => {
-    setLink(window.location.href);
+    setLink(
+      window.location.href.includes("/payments")
+        ? window.location.href.replace("/payments", "")
+        : window.location.href
+    );
   }, []);
   const handleSubmit = async () => {
     const response = await fetch(
@@ -20,6 +24,7 @@ export default function PopupComponent() {
 
     if (response.ok) {
       const shortUrl = await response.text();
+
       setShortUrl(`${shortUrl}/payments`);
     } else {
       alert("Error creating short URL");

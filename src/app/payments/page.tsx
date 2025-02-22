@@ -30,22 +30,21 @@ export default function Dashboard() {
 
   const debts = [
     {
-      id: "4910520840",
-      name: "ეპ ჯორჯია მიწოდება",
-      amount: "12.00",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvde9ploF_S2OOGQZN6NL5C7X7Tz0HinzgZA&s",
+      id: "7920543821",
+      name: "თელასი - ელექტროენერგია",
+      amount: "-45.30",
+      image: "https://app.telasi.ge/static/media/202401090336-en.webp",
     },
     {
-      id: "003102991-838",
-      name: "სოკარის ბუნებრივი აირი",
-      amount: "-167.00",
-      image: "https://formulanews.ge/uploads_script3/news/pow2gmfal8dj1yv.jpg",
+      id: "1103948576",
+      name: "თბილისის წყალი",
+      amount: "-32.50",
+      image: "https://tbilisipost.ge/media/010522/5a8199017a5c5-gwp2-01.jpg",
     },
     {
-      id: "341821936",
-      name: "მაგთის ოპტიკური ინტერნეტი",
-      amount: "-26.18",
+      id: "5092837465",
+      name: "მაგთი - მობილური ინტერნეტი",
+      amount: "-10.00",
       image: "https://uploads.allpayway.ge/files/services/5f6b115e1e6e8.png",
     },
   ];
