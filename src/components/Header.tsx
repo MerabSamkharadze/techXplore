@@ -5,22 +5,6 @@ import LogOut from "../../public/svg/logout";
 import Navbar from "./Nav";
 import { useEffect, useState } from "react";
 const Header = () => {
-  // async function getCustomer() {
-  //   try {
-  //     const response = await fetch("http://3.66.130.175:8080/api/customers/");
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP Error: ${response.status}`);
-  //     }
-  //     const customer = await response.json();
-  //     console.log(customer);
-  //     return customer;
-  //   } catch (error) {
-  //     console.error("Error fetching customers:", error);
-  //   }
-  // }
-
-  // getCustomer();
-
   const [link, setLink] = useState<string>("");
   useEffect(() => {
     setLink(window.location.href);
