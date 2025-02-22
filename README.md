@@ -17,8 +17,7 @@ This project is a demo application built for TBC Banking’s test. It simulates 
   A simulated interface to initiate and validate money transfers.
 - **Popup Notifications:**  
   Real-time notifications for transaction status and alerts.
-- **Responsive UI:**  
-  Optimized for all devices using Tailwind CSS.
+
 - **Modern Routing:**  
   Leveraging Next.js App Router for dynamic page loading and an enhanced user experience.
 
