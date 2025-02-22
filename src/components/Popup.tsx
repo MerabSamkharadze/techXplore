@@ -79,8 +79,8 @@ export default function PopupComponent() {
               </button>
 
               <h2
-                className={`text-xl font-semibold mb-4 bg-gradient-to-r from-[#00adee] to-[#0077b6] bg-clip-text text-transparent ${
-                  copied && "text-green-600"
+                className={`text-xl font-semibold mb-4 bg-[#00adee]  bg-clip-text text-transparent ${
+                  copied && "bg-green-600"
                 }`}
               >
                 {copied ? "Copied!" : "Copy Link"}
